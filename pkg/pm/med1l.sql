@@ -3,7 +3,7 @@ FROM RORSTAT
 JOIN ROBINST on ROBINST_AIDY_CODE = RORSTAT_AIDY_CODE and ROBINST_STATUS_IND = 'A'
 JOIN ROBNYUD on ROBNYUD_PIDM = RORSTAT_PIDM
 WHERE RORSTAT_AIDY_CODE = :AIDY
-AND RORSTAT_PIDM = (select spriden_pidm from spriden where spriden_change_ind is null and spriden_id = '001066176')
+-- AND RORSTAT_PIDM = (select spriden_pidm from spriden where spriden_change_ind is null and spriden_id = '001066176')
 AND ROBNYUD_VALUE_197 = 'Y'
 AND ROBNYUD_VALUE_198 = 'PM'
 AND EXISTS (
