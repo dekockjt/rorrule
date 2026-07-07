@@ -3,7 +3,8 @@ SELECT RORSTAT_PIDM
 FROM RORSTAT
 JOIN ROBINST on ROBINST_AIDY_CODE = RORSTAT_AIDY_CODE and ROBINST_STATUS_IND = 'A'
 WHERE RORSTAT_AIDY_CODE = :AIDY
-AND RORSTAT_PIDM = :PIDM
+AND RORSTAT_PIDM = (select spriden_pidm from spriden where spriden_change_ind is null and spriden_id = '001340032')
+-- AND RORSTAT_PIDM = :PIDM
 AND ((
     EXISTS (
         SELECT 1
@@ -27,7 +28,7 @@ AND ((
             AND c.STVAPDC_INST_ACC_IND = 'Y'
             AND c.STVAPDC_SIGNF_IND = 'Y'
         WHERE a.SARADAP_PIDM = RORSTAT_PIDM
-        AND a.SARADAP_LEVL_CODE ='GR'
+        AND a.SARADAP_LEVL_CODE = 'GR'
         AND a.SARADAP_TERM_CODE_ENTRY = (
             SELECT MAX(z.SARADAP_TERM_CODE_ENTRY)
             FROM SARADAP z
