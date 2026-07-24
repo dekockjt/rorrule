@@ -13,7 +13,7 @@ AND (
         SELECT 1
         FROM SATURN.SGBSTDN E
         JOIN SATURN.STVMAJR M on M.STVMAJR_CODE = E.SGBSTDN_MAJR_CODE_1
-            and M.STVMAJR_CIPC_CODE = ROBNYUD_VALUE_193
+            and substr(M.STVMAJR_CIPC_CODE, 0, 4) = substr(ROBNYUD_VALUE_193, 0, 4)
         WHERE E.SGBSTDN_PIDM = RORSTAT_PIDM
         and E.SGBSTDN_FULL_PART_IND <> 'F'
         AND E.SGBSTDN_STST_CODE IN ('AS', 'IL', 'P1')
@@ -28,7 +28,7 @@ AND (
         SELECT 1
         FROM SARADAP a
         JOIN SATURN.STVMAJR M on M.STVMAJR_CODE = a.SARADAP_MAJR_CODE_1
-            and M.STVMAJR_CIPC_CODE <> ROBNYUD_VALUE_193
+            and substr(M.STVMAJR_CIPC_CODE, 0, 4) <> substr(ROBNYUD_VALUE_193, 0, 4)
         JOIN SARAPPD b on b.SARAPPD_PIDM = a.SARADAP_PIDM
             AND b.SARAPPD_TERM_CODE_ENTRY = a.SARADAP_TERM_CODE_ENTRY
             AND b.SARAPPD_APPL_NO = a.SARADAP_APPL_NO
@@ -55,6 +55,15 @@ AND (
             WHERE z.SARAPPD_PIDM = b.SARAPPD_PIDM
             AND z.SARAPPD_TERM_CODE_ENTRY = b.SARAPPD_TERM_CODE_ENTRY
             AND z.SARAPPD_APPL_NO = b.SARAPPD_APPL_NO
+        )
+        and not exists (
+            select 1
+            from sgbstdn z
+            where z.sgbstdn_pidm = a.saradap_pidm
+            and z.sgbstdn_term_code_eff = a.saradap_term_code_entry
+            and z.sgbstdn_levl_code = 'PL'
+            and z.sgbstdn_majr_code_1 = 'LAW'
+            and z.sgbstdn_majr_code_2 = a.saradap_majr_code_1
         )
     )
 )

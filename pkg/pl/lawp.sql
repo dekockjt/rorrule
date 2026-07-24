@@ -92,3 +92,5 @@ SELECT RORSTAT_PIDM
 AND RORSTAT_AIDY_CODE            = :AIDY                                                
 -- AND RORSTAT_PIDM    =:PIDM   
 ;
+
+select robnyud_value_197 from robnyud where robnyud_pidm = (select spriden_pidm from spriden where spriden_change_ind is null and spriden_id = '001424678');
